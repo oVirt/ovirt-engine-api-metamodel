@@ -3,6 +3,22 @@
 This document describes the relevant changes between releases of the
 API metamodel.
 
+== 1.0.21 / Oct 17 2016
+
+Bug fixes:
+
+* Handle appendixes correctly.
+
+* Automatically fix section identifiers.
+
+* Don't generate cross references to non existing sections.
+
+* Fix cross references inside summaries.
+
+New features:
+
+* Generate default empty implementations for JAX-RS interfaces.
+
 == 1.0.20 / Sep 22 2016
 
 New features:
