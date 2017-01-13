@@ -94,7 +94,7 @@ public class Name implements Comparable<Name> {
     }
 
     /**
-     * Returns a string representation of this name, consisting on the list of words of the name separated by dashes.
+     * Returns a string representation of this name, consisting on the list of words of the name separated by underscores.
      */
     @Override
     public String toString() {
