@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2015 Red Hat, Inc.
+Copyright (c) 2015-2017 Red Hat, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ limitations under the License.
 package org.ovirt.api.metamodel.analyzer;
 
 import static java.util.stream.Collectors.toList;
+import static org.ovirt.api.metamodel.analyzer.ModelNameParser.parseJavaName;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -60,7 +61,6 @@ import org.ovirt.api.metamodel.concepts.ArrayExpression;
 import org.ovirt.api.metamodel.concepts.BinaryExpression;
 import org.ovirt.api.metamodel.concepts.Expression;
 import org.ovirt.api.metamodel.concepts.LiteralExpression;
-import org.ovirt.api.metamodel.concepts.NameParser;
 import org.ovirt.api.metamodel.concepts.Operator;
 import org.ovirt.api.metamodel.concepts.UnaryExpression;
 
@@ -392,7 +392,7 @@ public class ExpressionAnalyzer extends ExpressionBaseListener {
 
     @Override
     public void exitIdentifier(IdentifierContext context) {
-        context.name = NameParser.parseUsingCase(context.IDENTIFIER().getText());
+        context.name = parseJavaName(context.IDENTIFIER().getText());
     }
 
     @Override
