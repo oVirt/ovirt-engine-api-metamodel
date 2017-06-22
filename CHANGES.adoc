@@ -3,6 +3,12 @@
 This document describes the relevant changes between releases of the
 API metamodel.
 
+== 1.1.15 / Jun 22 2017
+
+Bug fixes:
+
+* Remove underscore prefixes and suffixes from names inside expressions.
+
 == 1.1.14 / Mar 21 2017
 
 Bug fixes:
