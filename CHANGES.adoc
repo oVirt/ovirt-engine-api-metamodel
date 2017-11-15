@@ -3,6 +3,13 @@
 This document describes the relevant changes between releases of the
 API metamodel.
 
+== 1.1.16 / Nov 15 2017
+
+Bug fixes:
+
+* Fix XML tag for list of enums
+  https://bugzilla.redhat.com/1512850[#1512850].
+
 == 1.1.15 / Jun 22 2017
 
 Bug fixes:
