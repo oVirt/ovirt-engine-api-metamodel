@@ -33,13 +33,13 @@ mkdir -p "${repository}"
 mvn="mvn -s ${settings} -Dmaven.repo.local=${repository}"
 
 # There may be several versions of Java installed in the build
-# enviroment, and we need to make sure that Java 8 is used, as
+# enviroment, and we need to make sure that Java 11 is used, as
 # it is required by the code generator:
-export JAVA_HOME="/usr/lib/jvm/java-1.8.0"
+export JAVA_HOME="/usr/lib/jvm/java-11"
 
 # Run the unit tests:
 ${mvn} test
 
-# Run findbugs:
+# Run spotbugs:
 ${mvn} install -DskipTests
-${mvn} findbugs:check
+${mvn} spotbugs:spotbugs

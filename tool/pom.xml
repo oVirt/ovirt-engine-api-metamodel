@@ -123,8 +123,14 @@ limitations under the License.
     <dependency>
       <groupId>org.asciidoctor</groupId>
       <artifactId>asciidoctorj</artifactId>
-      <version>1.5.2</version>
+      <version>1.6.0</version>
     </dependency>
+
+    <dependency>
+      <groupId>javax.xml.bind</groupId>
+      <artifactId>jaxb-api</artifactId>
+      <version>2.3.0</version>
+     </dependency>
 
   </dependencies>
 

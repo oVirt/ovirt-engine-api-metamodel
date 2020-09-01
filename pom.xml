@@ -117,14 +117,15 @@ limitations under the License.
     <pluginManagement>
       <plugins>
 
-        <!-- Make sure we use Java 8. -->
+        <!-- Make sure we use Java 11. -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.1</version>
+          <version>3.8.0</version>
           <configuration>
-            <source>1.8</source>
-            <target>1.8</target>
+            <source>11</source>
+            <target>11</target>
+            <release>11</release>
           </configuration>
         </plugin>
 
@@ -167,16 +168,16 @@ limitations under the License.
         </configuration>
       </plugin>
 
-      <!-- Run findbugs in all the projects with a explicit list
+      <!-- Run spotbugs in all the projects with a explicit list
            of exclussions: -->
+
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <version>3.0.3</version>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>3.1.12</version>
         <configuration>
           <xmlOutput>true</xmlOutput>
           <xmlOutputDirectory>target/site</xmlOutputDirectory>
-          <excludeFilterFile>${project.basedir}/exclude-filters.xml</excludeFilterFile>
         </configuration>
       </plugin>
 
@@ -197,7 +198,7 @@ limitations under the License.
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.10.3</version>
+        <version>3.2.0</version>
         <executions>
           <execution>
             <id>attach-javadocs</id>
@@ -207,7 +208,10 @@ limitations under the License.
           </execution>
         </executions>
         <configuration>
-          <additionalparam>-Xdoclint:none</additionalparam>
+          <source>11</source>
+          <target>11</target>
+          <release>11</release>
+	  <doclint>none</doclint>
         </configuration>
       </plugin>
 
