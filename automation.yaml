@@ -1,0 +1,5 @@
+distros:
+  - el7
+release_branches:
+  metamodel_1.2: ovirt-4.3
+
