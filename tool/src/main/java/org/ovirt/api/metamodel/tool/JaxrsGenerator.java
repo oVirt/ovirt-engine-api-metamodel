@@ -99,6 +99,7 @@ public class JaxrsGenerator extends JavaGenerator {
     @Inject private Names names;
     @Inject private JaxrsGeneratorUtils jaxrsGeneratorUtils;
 
+    @Override
     public void generate(Model model) {
         model.getServices().forEach(this::generateInterface);
     }
@@ -618,11 +619,11 @@ public class JaxrsGenerator extends JavaGenerator {
         // Generate the locator method:
         generateDoc(locator);
         javaBuffer.addLine("@Path(\"{id}\")");
-        javaBuffer.addLine(
-            "%s get%sResource(@PathParam(\"id\") String id);",
-            interfaceName.getSimpleName(),
-            javaNames.getJavaClassStyleName(locator.getName())
-        );
+        javaBuffer.addLine("default %s get%sResource(@PathParam(\"id\") String id) {",
+                interfaceName.getSimpleName(),
+                javaNames.getJavaClassStyleName(locator.getName()));
+        javaBuffer.addLine("throw new UnsupportedOperationException();");
+        javaBuffer.addLine("}");
 
         javaBuffer.addLine();
     }
@@ -642,11 +643,11 @@ public class JaxrsGenerator extends JavaGenerator {
             "@Path(\"%s\")",
             jaxrsNames.getActionPath(locator.getName())
         );
-        javaBuffer.addLine(
-            "%s get%sResource();",
-            interfaceName.getSimpleName(),
-            javaNames.getJavaClassStyleName(locator.getName())
-        );
+        javaBuffer.addLine("default %s get%sResource() {",
+                interfaceName.getSimpleName(),
+                javaNames.getJavaClassStyleName(locator.getName()));
+        javaBuffer.addLine("throw new UnsupportedOperationException();");
+        javaBuffer.addLine("}");
 
         javaBuffer.addLine();
     }
