@@ -392,6 +392,15 @@ public class XmlWriter implements AutoCloseable {
     }
 
     /**
+     * Render a string representation of any value other than
+     * the standard: String, Boolean, Integer, Decimal, Date
+     * by defaulting to .toString()
+     */
+    public static String renderOther(Object value) {
+        return value.toString();
+    }
+
+    /**
      * Flushes the output.
      */
     public void flush() {
