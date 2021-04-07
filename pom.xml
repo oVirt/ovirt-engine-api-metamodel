@@ -53,11 +53,21 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <javax.json.version>1.0.3</javax.json.version>
+
+    <asciidoctor.version>1.6.0</asciidoctor.version>
+    <antlr4.version>4.2.2</antlr4.version>
+    <commons-cli.version>1.3.1</commons-cli.version>
     <commons-io.version>2.4</commons-io.version>
-    <slf4j.version>1.7.7</slf4j.version>
-    <log4j.version>1.2.17</log4j.version>
+    <javax.activation.version>1.2.0</javax.activation.version>
+    <javax.json.version>1.0.3</javax.json.version>
+    <jaxb-api.version>2.3.0</jaxb-api.version>
+    <jboss-jaxrs-api.version>1.0.0.Final</jboss-jaxrs-api.version>
+    <jboss-servlet-api.version>1.0.0.Final</jboss-servlet-api.version>
     <junit.version>4.13.1</junit.version>
+    <log4j.version>1.2.17</log4j.version>
+    <qdox.version>2.0-M3</qdox.version>
+    <slf4j.version>1.7.7</slf4j.version>
+    <weld-se.version>2.3.0.Final</weld-se.version>
   </properties>
 
   <modules>
@@ -72,6 +82,56 @@
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>com.sun.activation</groupId>
+        <artifactId>javax.activation</artifactId>
+        <version>${javax.activation.version}</version>
+      </dependency>
+
+      <!-- This is needed to process Java source files: -->
+      <dependency>
+        <groupId>com.thoughtworks.qdox</groupId>
+        <artifactId>qdox</artifactId>
+        <version>${qdox.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-cli</groupId>
+        <artifactId>commons-cli</artifactId>
+        <version>${commons-cli.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>${commons-io.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>javax.xml.bind</groupId>
+        <artifactId>jaxb-api</artifactId>
+        <version>${jaxb-api.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>${log4j.version}</version>
+      </dependency>
+
+      <!-- This is needed by the constraint parser: -->
+      <dependency>
+        <groupId>org.antlr</groupId>
+        <artifactId>antlr4-runtime</artifactId>
+        <version>${antlr4.version}</version>
+      </dependency>
+
+      <!-- This is needed in order to generate HTML code from the model documentation: -->
+      <dependency>
+        <groupId>org.asciidoctor</groupId>
+        <artifactId>asciidoctorj</artifactId>
+        <version>${asciidoctor.version}</version>
+      </dependency>
 
       <dependency>
         <groupId>org.glassfish</groupId>
@@ -80,10 +140,35 @@
       </dependency>
 
       <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>${commons-io.version}</version>
+        <groupId>org.jboss.spec.javax.servlet</groupId>
+        <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+        <version>${jboss-servlet-api.version}</version>
       </dependency>
+
+      <dependency>
+        <groupId>org.jboss.spec.javax.ws.rs</groupId>
+        <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
+        <version>${jboss-jaxrs-api.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>*</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+    <!-- The tool runs in a CDI environment, implemented by Weld: -->
+    <dependency>
+      <groupId>org.jboss.weld.se</groupId>
+      <artifactId>weld-se</artifactId>
+      <version>${weld-se.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
 
       <dependency>
         <groupId>org.slf4j</groupId>
@@ -95,12 +180,6 @@
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-log4j12</artifactId>
         <version>${slf4j.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-        <version>${log4j.version}</version>
       </dependency>
 
       <dependency>
