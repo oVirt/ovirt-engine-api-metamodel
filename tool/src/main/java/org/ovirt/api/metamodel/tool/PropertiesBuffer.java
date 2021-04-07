@@ -58,18 +58,8 @@ public class PropertiesBuffer {
 
         // License:
         buffer.append("#\n");
-        buffer.append("# Copyright (c) 2016 Red Hat, Inc.\n");
-        buffer.append("# Licensed under the Apache License, Version 2.0 (the \"License\");\n");
-        buffer.append("# you may not use this file except in compliance with the License.\n");
-        buffer.append("# You may obtain a copy of the License at\n");
-        buffer.append("#\n");
-        buffer.append("#   http://www.apache.org/licenses/LICENSE-2.0\n");
-        buffer.append("#\n");
-        buffer.append("# Unless required by applicable law or agreed to in writing, software\n");
-        buffer.append("# distributed under the License is distributed on an \"AS IS\" BASIS,\n");
-        buffer.append("# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n");
-        buffer.append("# See the License for the specific language governing permissions and\n");
-        buffer.append("# limitations under the License.\n");
+        buffer.append("# Copyright oVirt Authors\n");
+        buffer.append("# SPDX-License-Identifier: Apache-2.0\n");
         buffer.append("#\n");
 
         // Body:
