@@ -314,6 +314,7 @@ public class AsciiDocGenerator {
         // Table of links:
         List<Link> links = type.getLinks();
         if (!links.isEmpty()) {
+            docBuffer.addId(getId(type)+ configuration.getSeparator() + "links_summary");
             docBuffer.addLine(".Links summary");
             docBuffer.addLine("[cols=\"20,20,60\"]");
             docBuffer.addLine("|===");
