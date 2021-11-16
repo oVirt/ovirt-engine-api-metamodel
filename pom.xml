@@ -63,7 +63,7 @@
     <jaxb-api.version>2.3.0</jaxb-api.version>
     <jboss-jaxrs-api.version>1.0.0.Final</jboss-jaxrs-api.version>
     <jboss-servlet-api.version>1.0.0.Final</jboss-servlet-api.version>
-    <junit.version>4.13.1</junit.version>
+    <junit.version>4.12</junit.version>
     <log4j.version>1.2.17</log4j.version>
     <qdox.version>2.0-M3</qdox.version>
     <slf4j.version>1.7.7</slf4j.version>
