@@ -1,15 +1,16 @@
-= oVirt Engine API Metamodel
+# oVirt Engine API Metamodel
 
-This project contains the oVirt Engine API Metamodel. It is a set of
-tools that read, analyze and generate code from the API model.
+Welcome to the oVirt Engine API Metamodel source repository. This repository is hosted on [GitHub:ovirt-engine-api-metamodel](https://github.com/oVirt/ovirt-engine-api-metamodel).
 
-== Building
+This project contains the oVirt Engine API Metamodel. It is a set of tools that read, analyze and generate code from the API model.
+
+## Building
 
 To build this project use the usual Maven command line:
 
   $ mvn clean install
 
-== Releasing
+## Releasing
 
 The project is released to Maven Central via the Sonatype OSSRH
 repository.
@@ -17,7 +18,7 @@ repository.
 To perform a release you will need to do the following actions, most of
 them automated by the Maven release plugin:
 
-=== Prepare the release
+### Prepare the release
 
 This is automated using the Maven release plugin:
 
@@ -41,7 +42,7 @@ be pushed:
 
   $ git push origin 1.0.4
 
-=== Perform the release
+### Perform the release
 
 This is also automated using the Maven release plugin. But in this case
 it is necessary to sign the artifacts, as both Sonatype OSSRH and Maven
@@ -69,3 +70,21 @@ _Release_ button is enabled. Click the _Release_ button, it will ask for
 a message, write something like _Release 1.0.5_ and then _OK_. The
 release is now ready, and it will be propagated to Maven Central later,
 it usually takes around 30 minutes.
+
+## How to contribute
+
+All contributions are welcome - patches, bug reports, and documentation issues.
+
+### Submitting patches
+
+Please submit patches to [GitHub:ovirt-engine-api-metamodel](https://github.com/oVirt/ovirt-engine-api-metamodel). If you are not familiar with the process, you can read about [collaborating with pull requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests) on the GitHub website.
+
+### Found a bug or documentation issue?
+
+To submit a bug or suggest an enhancement for oVirt Engine API Metamodel please use [oVirt Bugzilla for ovirt-engine product](https://bugzilla.redhat.com/enter_bug.cgi?product=ovirt-engine).
+
+If you don't have a Bugzilla account, you can still report [issues](https://github.com/oVirt/ovirt-engine-api-metamodel/issues). If you find a documentation issue on the oVirt website, please navigate to the page footer and click "Report an issue on GitHub".
+
+## Still need help?
+
+If you have any other questions or suggestions, you can join and contact us on the [oVirt Users forum / mailing list](https://lists.ovirt.org/admin/lists/users.ovirt.org/).
