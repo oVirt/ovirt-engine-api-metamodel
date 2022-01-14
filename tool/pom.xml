@@ -76,7 +76,7 @@
     <!-- The tool runs in a CDI environment, implemented by Weld: -->
     <dependency>
       <groupId>org.jboss.weld.se</groupId>
-      <artifactId>weld-se</artifactId>
+      <artifactId>weld-se-shaded</artifactId>
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>
@@ -100,6 +100,10 @@
     </dependency>
 
     <!-- This is needed in order to generate HTML code from the model documentation: -->
+    <dependency>
+      <groupId>org.asciidoctor</groupId>
+      <artifactId>asciidoctorj-api</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.asciidoctor</groupId>
       <artifactId>asciidoctorj</artifactId>
