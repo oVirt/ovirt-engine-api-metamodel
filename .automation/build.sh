@@ -9,6 +9,7 @@ fi
 
 # Directory, where build artifacts will be stored, should be passed as the 1st parameter
 ARTIFACTS_DIR=${1:-exported-artifacts}
+[[ -d ${ARTIFACTS_DIR} ]] || mkdir -p ${ARTIFACTS_DIR}
 
 # Prepare the version string (with support for SNAPSHOT versioning)
 VERSION=$(mvn help:evaluate  -q -DforceStdout -Dexpression=project.version)
