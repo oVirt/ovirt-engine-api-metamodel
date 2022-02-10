@@ -64,7 +64,6 @@
     <jboss-jaxrs-api.version>1.0.0.Final</jboss-jaxrs-api.version>
     <jboss-servlet-api.version>1.0.0.Final</jboss-servlet-api.version>
     <junit.version>4.12</junit.version>
-    <log4j.version>1.2.17</log4j.version>
     <qdox.version>2.0-M3</qdox.version>
     <slf4j.version>1.7.7</slf4j.version>
     <weld-se.version>2.3.0.Final</weld-se.version>
@@ -111,12 +110,6 @@
         <groupId>javax.xml.bind</groupId>
         <artifactId>jaxb-api</artifactId>
         <version>${jaxb-api.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-        <version>${log4j.version}</version>
       </dependency>
 
       <!-- This is needed by the constraint parser: -->
@@ -178,8 +171,9 @@
 
       <dependency>
         <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
+        <artifactId>slf4j-jdk14</artifactId>
         <version>${slf4j.version}</version>
+        <scope>runtime</scope>
       </dependency>
 
       <dependency>
