@@ -18,7 +18,17 @@ import org.slf4j.LoggerFactory;
  * with the command line arguments.
  */
 public class Main {
-    private static final Logger log = LoggerFactory.getLogger(Main.class);
+    private static final Logger log;
+
+    static {
+        // loads logging.properties from the classpath
+        String path = Main.class.getClassLoader().getResource("logging.properties").getFile();
+        System.setProperty("java.util.logging.config.file", path);
+
+        // initialize logger
+        log = LoggerFactory.getLogger(Main.class);
+
+    }
 
     public static void main(String[] args) {
         // The first argument must be the name of the tool class:
