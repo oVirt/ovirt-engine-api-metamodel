@@ -1,5 +1,7 @@
 # oVirt Engine API Metamodel
 
+[![Copr build status](https://copr.fedorainfracloud.org/coprs/ovirt/ovirt-master-snapshot/package/ovirt-engine-api-metamodel/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/ovirt/ovirt-master-snapshot/package/ovirt-engine-api-metamodel/)
+
 Welcome to the oVirt Engine API Metamodel source repository. This repository is hosted on [GitHub:ovirt-engine-api-metamodel](https://github.com/oVirt/ovirt-engine-api-metamodel).
 
 This project contains the oVirt Engine API Metamodel. It is a set of tools that read, analyze and generate code from the API model.
