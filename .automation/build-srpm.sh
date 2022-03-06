@@ -1,6 +1,6 @@
 #!/bin/bash -xe
 
-# git hash of current commit should be passed as the 1st paraameter
+# When building on GitHub we should use GITHUB_SHA environment variable, otherwise parse has from git
 if [ "${GITHUB_SHA}" == "" ]; then
   GIT_HASH=$(git rev-list HEAD | wc -l)
 else
@@ -9,6 +9,9 @@ fi
 
 # Directory, where build artifacts will be stored, should be passed as the 1st parameter
 ARTIFACTS_DIR=${1:-exported-artifacts}
+
+# Disabling tests can be passed as the 2nd parameter
+SKIP_TESTS=${2:-0}
 
 # Prepare the version string (with support for SNAPSHOT versioning)
 VERSION=$(mvn help:evaluate  -q -DforceStdout -Dexpression=project.version)
@@ -25,6 +28,7 @@ git archive --format=tar HEAD | gzip -9 > rpmbuild/SOURCES/ovirt-engine-api-meta
 sed \
     -e "s|@VERSION@|${VERSION}|g" \
     -e "s|@RELEASE@|${RELEASE}|g" \
+    -e "s|@SKIP_TESTS@|${SKIP_TESTS}|g" \
     < ovirt-engine-api-metamodel.spec.in \
     > ovirt-engine-api-metamodel.spec
 

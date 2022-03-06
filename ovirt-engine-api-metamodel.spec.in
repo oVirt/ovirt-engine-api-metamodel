@@ -1,3 +1,5 @@
+%global skip_tests @SKIP_TESTS@
+
 Name:		ovirt-engine-api-metamodel
 Version:	@VERSION@
 Release:	@RELEASE@%{?dist}
@@ -65,11 +67,16 @@ Group:		%{ovirt_product_group}
 # no need to package tests
 %mvn_package ":metamodel-tests" __noinstall
 
+%if %{?skip_tests}
+# We need to skip test execution on COPR due to some weld classloading issues
+%pom_remove_module metamodel-tests
+%endif
+
 %build
 # Necessary to override the default JVM for xmvn in COPR, which is JDK 8
 export JAVA_HOME="/usr/lib/jvm/java-11-openjdk"
 
-%mvn_build -j -X -d
+%mvn_build -j
 
 
 %install
