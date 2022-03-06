@@ -69,7 +69,7 @@ Group:		%{ovirt_product_group}
 # Necessary to override the default JVM for xmvn in COPR, which is JDK 8
 export JAVA_HOME="/usr/lib/jvm/java-11-openjdk"
 
-%mvn_build -j
+%mvn_build -j -X -d
 
 
 %install
