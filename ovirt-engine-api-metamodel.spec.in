@@ -10,7 +10,7 @@ Source0:	%{name}-%{version}.tar.gz
 BuildArch:	noarch
 
 BuildRequires:  java-11-openjdk-devel
-BuildRequires:  maven-local
+BuildRequires:  maven-local >= 4.0.0
 BuildRequires:  mvn(commons-io:commons-io)
 BuildRequires:  mvn(jakarta.activation:jakarta.activation-api)
 BuildRequires:  mvn(javax.json:javax.json-api)
