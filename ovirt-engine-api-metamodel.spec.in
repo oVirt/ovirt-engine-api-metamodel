@@ -69,7 +69,7 @@ Group:		%{ovirt_product_group}
 
 %if %{?skip_tests}
 # We need to skip test execution on COPR due to some weld classloading issues
-%pom_remove_module metamodel-tests
+%pom_disable_module metamodel-tests
 %endif
 
 %build
