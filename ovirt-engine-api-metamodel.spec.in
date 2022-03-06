@@ -11,28 +11,50 @@ Source0:	%{name}-%{version}.tar.gz
 
 BuildArch:	noarch
 
-BuildRequires:  java-11-openjdk-devel
-BuildRequires:  maven-local >= 4.0.0
-BuildRequires:  mvn(commons-io:commons-io)
-BuildRequires:  mvn(jakarta.activation:jakarta.activation-api)
-BuildRequires:  mvn(javax.json:javax.json-api)
-BuildRequires:  mvn(javax.servlet:javax.servlet-api)
-BuildRequires:  mvn(javax.xml.bind:jaxb-api)
-BuildRequires:  mvn(junit:junit)
-BuildRequires:  mvn(org.antlr:antlr4-runtime)
-BuildRequires:  mvn(org.antlr:antlr4-maven-plugin)
-BuildRequires:  mvn(org.apache.maven.plugins:maven-compiler-plugin)
-BuildRequires:  mvn(org.apache.maven.plugins:maven-source-plugin)
-BuildRequires:  mvn(org.apache.maven.plugins:maven-surefire-plugin)
-BuildRequires:  mvn(org.asciidoctor:asciidoctorj)
-BuildRequires:  mvn(org.codehaus.mojo:build-helper-maven-plugin)
-BuildRequires:  mvn(org.codehaus.mojo:exec-maven-plugin)
-BuildRequires:  mvn(org.glassfish:javax.json)
-BuildRequires:  mvn(org.jboss.resteasy:jaxrs-api)
-BuildRequires:  mvn(org.jboss.weld.se:weld-se-shaded)
-BuildRequires:  mvn(org.ovirt.maven.plugins:ovirt-jboss-modules-maven-plugin)
-BuildRequires:  mvn(org.slf4j:slf4j-api)
-BuildRequires:  mvn(org.slf4j:slf4j-jdk14)
+# We need to disable automatic generation of "Requires: java-headless >= 1:11"
+# by xmvn, becase JDK 11 doesn't provide java-headless artifact, but it
+# provides java-11-headless.
+AutoReq:	no
+
+BuildRequires:	java-11-openjdk-devel
+BuildRequires:	maven-local >= 4.0.0
+BuildRequires:	mvn(commons-io:commons-io)
+BuildRequires:	mvn(jakarta.activation:jakarta.activation-api)
+BuildRequires:	mvn(javax.json:javax.json-api)
+BuildRequires:	mvn(javax.servlet:javax.servlet-api)
+BuildRequires:	mvn(javax.xml.bind:jaxb-api)
+BuildRequires:	mvn(junit:junit)
+BuildRequires:	mvn(org.antlr:antlr4-runtime)
+BuildRequires:	mvn(org.antlr:antlr4-maven-plugin)
+BuildRequires:	mvn(org.apache.maven.plugins:maven-compiler-plugin)
+BuildRequires:	mvn(org.apache.maven.plugins:maven-source-plugin)
+BuildRequires:	mvn(org.apache.maven.plugins:maven-surefire-plugin)
+BuildRequires:	mvn(org.asciidoctor:asciidoctorj)
+BuildRequires:	mvn(org.codehaus.mojo:build-helper-maven-plugin)
+BuildRequires:	mvn(org.codehaus.mojo:exec-maven-plugin)
+BuildRequires:	mvn(org.glassfish:javax.json)
+BuildRequires:	mvn(org.jboss.resteasy:jaxrs-api)
+BuildRequires:	mvn(org.jboss.weld.se:weld-se-shaded)
+BuildRequires:	mvn(org.ovirt.maven.plugins:ovirt-jboss-modules-maven-plugin)
+BuildRequires:	mvn(org.slf4j:slf4j-api)
+BuildRequires:	mvn(org.slf4j:slf4j-jdk14)
+
+Requires:	ovirt-engine-api-metamodel-server
+Requires:	java-11-openjdk-headless >= 1:11.0.0
+Requires:	javapackages-filesystem
+Requires:	mvn(com.thoughtworks.qdox:qdox)
+Requires:	mvn(commons-cli:commons-cli)
+Requires:	mvn(commons-io:commons-io)
+Requires:	mvn(javax.json:javax.json-api)
+Requires:	mvn(javax.xml.bind:jaxb-api)
+Requires:	mvn(org.antlr:antlr4-runtime)
+Requires:	mvn(org.asciidoctor:asciidoctorj)
+Requires:	mvn(org.asciidoctor:asciidoctorj-api)
+Requires:	mvn(org.glassfish:javax.json)
+Requires:	mvn(org.jboss.spec.javax.ws.rs:jboss-jaxrs-api_2.0_spec)
+Requires:	mvn(org.jboss.weld.se:weld-se-shaded)
+Requires:	mvn(org.slf4j:slf4j-api)
+Requires:	mvn(org.slf4j:slf4j-jdk14)
 
 
 %description
@@ -43,6 +65,16 @@ BuildRequires:  mvn(org.slf4j:slf4j-jdk14)
 Summary:	Server runtime of model management
 Group:		%{ovirt_product_group}
 
+# We need to disable automatic generation of "Requires: java-headless >= 1:11"
+# by xmvn, becase JDK 11 doesn't provide java-headless artifact, but it
+# provides java-11-headless.
+AutoReq:	no
+
+Requires:	java-11-openjdk-headless >= 1:11.0.0
+Requires:	javapackages-filesystem
+Requires:	mvn(jakarta.activation:jakarta.activation-api)
+Requires:	mvn(javax.servlet:javax.servlet-api)
+Requires:	mvn(org.slf4j:slf4j-api)
 
 %description server
 %{name}-server provides server side runtime used within oVirt Engine
