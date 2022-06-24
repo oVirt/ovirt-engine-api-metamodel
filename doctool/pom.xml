@@ -15,10 +15,10 @@
     <version>1.3.8-SNAPSHOT</version>
   </parent>
 
-  <artifactId>metamodel-tool</artifactId>
+  <artifactId>metamodel-doctool</artifactId>
   <packaging>jar</packaging>
 
-  <name>oVirt API Metamodel Tool</name>
+  <name>oVirt API Metamodel DocTool</name>
 
   <dependencies>
 
@@ -37,6 +37,12 @@
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>metamodel-runtime</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>metamodel-tool</artifactId>
       <version>${project.version}</version>
     </dependency>
 
@@ -97,6 +103,16 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-jdk14</artifactId>
       <scope>runtime</scope>
+    </dependency>
+
+    <!-- This is needed in order to generate HTML code from the model documentation: -->
+    <dependency>
+      <groupId>org.asciidoctor</groupId>
+      <artifactId>asciidoctorj-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.asciidoctor</groupId>
+      <artifactId>asciidoctorj</artifactId>
     </dependency>
 
     <dependency>

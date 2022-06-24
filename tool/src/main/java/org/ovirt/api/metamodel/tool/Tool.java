@@ -36,17 +36,12 @@ public class Tool {
     private VersionedJavaNames versionedJavaNames;
 
     // References to the objects used to generate code:
-    @Inject private XmlDescriptionGenerator xmlDescriptionGenerator;
-    @Inject private JsonDescriptionGenerator jsonDescriptionGenerator;
     @Inject private SchemaGenerator schemaGenerator;
     @Inject private JaxrsGenerator jaxrsGenerator;
     @Inject private TypesGenerator typesGenerator;
     @Inject private JaxrsHelperGenerator jaxrsHelperGenerator;
     @Inject private XmlSupportGenerator xmlSupportGenerator;
     @Inject private JsonSupportGenerator jsonSupportGenerator;
-    @Inject private AsciiDocGenerator docGenerator;
-    @Inject private DocReportGenerator reportGenerator;
-    @Inject private AsciiDocConfiguration adocConfiguration;
 
     // Reference to the object used to add built-in types to the model:
     @Inject private BuiltinTypes builtinTypes;
@@ -55,15 +50,9 @@ public class Tool {
     private static final String MODEL_OPTION = "model";
     private static final String IN_SCHEMA_OPTION = "in-schema";
     private static final String OUT_SCHEMA_OPTION = "out-schema";
-    private static final String XML_DESCRIPTION_OPTION = "xml-description";
-    private static final String JSON_DESCRIPTION_OPTION = "json-description";
     private static final String JAVA_OPTION = "java";
     private static final String JAXRS_OPTION = "jaxrs";
     private static final String VERSION_PREFIX_OPTION = "version-prefix";
-    private static final String DOCS_OPTION = "docs";
-    private static final String REPORT_OPTION = "report";
-    private static final String ADOC_ATTRIBUTE_OPTION = "adoc-attribute";
-    private static final String ADOC_SEPARATOR_OPTION = "adoc-separator";
     private static final String RESOURCES_OPTION = "resources";
 
     // Names of options for Java package names:
@@ -87,30 +76,6 @@ public class Tool {
             .required(true)
             .hasArg(true)
             .argName("DIRECTORY|JAR")
-            .build()
-        );
-
-        // Options for the location of the generated XML and JSON model representations:
-        options.addOption(Option.builder()
-            .longOpt(XML_DESCRIPTION_OPTION)
-            .desc(
-                "The location of the generated XML description of the model. If not specified then the XML " +
-                "description isn't generated.")
-            .type(File.class)
-            .required(false)
-            .hasArg(true)
-            .argName("FILE")
-            .build()
-        );
-        options.addOption(Option.builder()
-            .longOpt(JSON_DESCRIPTION_OPTION)
-            .desc(
-                "The location of the generated JSON description of the model. If not specified then the JSON " +
-                "description isn't generated.")
-            .type(File.class)
-            .required(false)
-            .hasArg(true)
-            .argName("FILE")
             .build()
         );
 
@@ -218,47 +183,6 @@ public class Tool {
             .build()
         );
 
-        // Options for the generation of documentation:
-        options.addOption(Option.builder()
-            .longOpt(DOCS_OPTION)
-            .desc("The directory where the generated documentation will be created.")
-            .type(File.class)
-            .required(false)
-            .hasArg(true)
-            .argName("DIRECTORY")
-            .build()
-        );
-        options.addOption(Option.builder()
-            .longOpt(ADOC_ATTRIBUTE_OPTION)
-            .desc(
-                "An attribute to be included in the generated AsciiDoc documentation. The value of the argument " +
-                "should be the name attribute, followed by an optional colon and the value of the attribute."
-            )
-            .required(false)
-            .hasArg(true)
-            .argName("ATTRIBUTE")
-            .build()
-        );
-        options.addOption(Option.builder()
-            .longOpt(ADOC_SEPARATOR_OPTION)
-            .desc(
-                "The character to use as the separator of section identifiers in the generated AsciiDoc " +
-                "documentation. If not specified the forward slash character will be used."
-            )
-            .required(false)
-            .hasArg(true)
-            .argName("SEPARATOR")
-            .build()
-        );
-        options.addOption(Option.builder()
-            .longOpt(REPORT_OPTION)
-            .desc("The file where the documentation report be created.")
-            .type(File.class)
-            .required(false)
-            .hasArg(true)
-            .argName("FILE")
-            .build()
-        );
         options.addOption(Option.builder()
             .longOpt(RESOURCES_OPTION)
             .desc("The directory where the resources files will be created.")
@@ -285,14 +209,10 @@ public class Tool {
 
         // Extract the locations of files and directories from the command line:
         File modelFile = (File) line.getParsedOptionValue(MODEL_OPTION);
-        File xmlFile = (File) line.getParsedOptionValue(XML_DESCRIPTION_OPTION);
-        File jsonFile = (File) line.getParsedOptionValue(JSON_DESCRIPTION_OPTION);
         File inSchemaFile = (File) line.getParsedOptionValue(IN_SCHEMA_OPTION);
         File outSchemaFile = (File) line.getParsedOptionValue(OUT_SCHEMA_OPTION);
         File jaxrsDir = (File) line.getParsedOptionValue(JAXRS_OPTION);
         File javaDir = (File) line.getParsedOptionValue(JAVA_OPTION);
-        File docsDir = (File) line.getParsedOptionValue(DOCS_OPTION);
-        File reportFile = (File) line.getParsedOptionValue(REPORT_OPTION);
         File resourcesDir = (File) line.getParsedOptionValue(RESOURCES_OPTION);
 
         // Analyze the model files:
@@ -342,43 +262,6 @@ public class Tool {
             javaPackages.setXmlPackageName(xmlPackage);
         }
 
-        // Extract the documentation attributes:
-        String[] adocAttributeArgs = line.getOptionValues(ADOC_ATTRIBUTE_OPTION);
-        if (adocAttributeArgs != null) {
-            for (String adocAttributeArg : adocAttributeArgs) {
-                Matcher adocAttributeMatch = ADOC_ATTRIBUTE_RE.matcher(adocAttributeArg);
-                if (!adocAttributeMatch.matches()) {
-                    throw new IllegalArgumentException(
-                        "The AsciiDoc attribute \"" + adocAttributeArg + "\" doesn't match regular " +
-                        "expression \"" + ADOC_ATTRIBUTE_RE.pattern() + "\"."
-                    );
-                }
-                String adocAttributeName = adocAttributeMatch.group("name");
-                String adocAttributeValue = adocAttributeMatch.group("value");
-                adocConfiguration.setAttribute(adocAttributeName, adocAttributeValue);
-            }
-        }
-
-        // Get the AsciiDoc section id separator:
-        String adocSeparator = line.getOptionValue(ADOC_SEPARATOR_OPTION);
-        if (adocSeparator != null) {
-            adocConfiguration.setSeparator(adocSeparator);
-        }
-
-        // Generate the XML representation of the model:
-        if (xmlFile != null) {
-            File xmlDir = xmlFile.getParentFile();
-            FileUtils.forceMkdir(xmlDir);
-            xmlDescriptionGenerator.generate(model, xmlFile);
-        }
-
-        // Generate the JSON representation of the model:
-        if (jsonFile != null) {
-            File jsonDir = jsonFile.getParentFile();
-            FileUtils.forceMkdir(jsonDir);
-            jsonDescriptionGenerator.generate(model, jsonFile);
-        }
-
         // Generate the XML schema:
         if (inSchemaFile != null && outSchemaFile != null) {
             schemaGenerator.setInFile(inSchemaFile);
@@ -409,16 +292,6 @@ public class Tool {
             xmlSupportGenerator.setOutDir(javaDir);
             xmlSupportGenerator.setResourcesDir(resourcesDir);
             xmlSupportGenerator.generate(model);
-        }
-
-        // Generate the documentation:
-        if (docsDir != null) {
-            docGenerator.setOutDir(docsDir);
-            docGenerator.generate(model);
-        }
-        if (reportFile != null) {
-            reportGenerator.setOutFile(reportFile);
-            reportGenerator.generate(model);
         }
     }
 }
