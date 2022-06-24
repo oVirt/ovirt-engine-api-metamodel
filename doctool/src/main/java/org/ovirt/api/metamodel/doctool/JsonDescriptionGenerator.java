@@ -3,12 +3,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.ovirt.api.metamodel.tool;
+package org.ovirt.api.metamodel.doctool;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.stream.JsonGenerator;
+import javax.json.stream.JsonGeneratorFactory;
 
 import org.ovirt.api.metamodel.concepts.Annotation;
 import org.ovirt.api.metamodel.concepts.AnnotationParameter;
@@ -29,15 +38,14 @@ import org.ovirt.api.metamodel.concepts.PrimitiveType;
 import org.ovirt.api.metamodel.concepts.Service;
 import org.ovirt.api.metamodel.concepts.StructType;
 import org.ovirt.api.metamodel.concepts.Type;
-import org.ovirt.api.metamodel.runtime.xml.XmlWriter;
 
 /**
- * This class takes a model and generates its XML description.
+ * This class takes a model and generates its JSON description.
 */
 @ApplicationScoped
-public class XmlDescriptionGenerator {
+public class JsonDescriptionGenerator {
     private Model model;
-    private XmlWriter writer;
+    private JsonGenerator writer;
 
     // Reference to the object that converts documentation to HTML:
     @Inject
@@ -47,29 +55,36 @@ public class XmlDescriptionGenerator {
         // Save the model:
         this.model = model;
 
-        // Create the XML writer:
-        try (XmlWriter tmp = new XmlWriter(file, true)) {
-            writer = tmp;
+        // Create the JSON writer:
+        try (OutputStream out = new FileOutputStream(file)) {
+            Map<String, Object> configuration = new HashMap<>();
+            configuration.put(JsonGenerator.PRETTY_PRINTING, true);
+            JsonGeneratorFactory factory = Json.createGeneratorFactory(configuration);
+            writer = factory.createGenerator(out, StandardCharsets.UTF_8);
             writeModel();
+            writer.close();
+        }
+        catch (IOException exception) {
+            throw new IllegalStateException("Can't generate JSON representation", exception);
         }
     }
 
     private void writeModel() {
-        writer.writeStartElement("model");
+        writer.writeStartObject();
         Service root = model.getRoot();
         if (root != null) {
-            writer.writeElement("root", getServiceRef(root));
+            writer.write("root", getServiceRef(root));
         }
-        writer.writeStartElement("types");
+        writer.writeStartArray("types");
         model.types().forEach(this::writeType);
-        writer.writeEndElement();
-        writer.writeStartElement("services");
+        writer.writeEnd();
+        writer.writeStartArray("services");
         model.services().forEach(this::writeService);
-        writer.writeEndElement();
-        writer.writeStartElement("documents");
+        writer.writeEnd();
+        writer.writeStartArray("documents");
         model.documents().forEach(this::writeDocument);
-        writer.writeEndElement();
-        writer.writeEndElement();
+        writer.writeEnd();
+        writer.writeEnd();
     }
 
     private void writeType(Type type) {
@@ -85,90 +100,107 @@ public class XmlDescriptionGenerator {
     }
 
     private void writePrimitiveType(PrimitiveType type) {
-        writer.writeStartElement("primitive");
+        writer.writeStartObject();
+        writer.write("kind", "primitive");
         writeCommon(type);
-        writer.writeEndElement();
+        writer.writeEnd();
     }
 
     private void writeStructType(StructType type) {
-        writer.writeStartElement("struct");
+        writer.writeStartObject();
+        writer.write("kind", "struct");
         writeCommon(type);
-        type.attributes().forEach(this::writeAttribute);
+        writer.writeStartArray("attributes");
+        type.attributes().forEach(this::writeStructAttribute);
+        writer.writeEnd();
+        writer.writeStartArray("links");
         type.links().forEach(this::writeStructLink);
-        writer.writeEndElement();
+        writer.writeEnd();
+        writer.writeEnd();
     }
 
-    private void writeAttribute(Attribute attribute) {
-        writer.writeStartElement("attribute");
+    private void writeStructAttribute(Attribute attribute) {
+        writer.writeStartObject();
         writeCommon(attribute);
         writeTypeRef(attribute.getType());
-        writer.writeEndElement();
+        writer.writeEnd();
     }
 
     private void writeStructLink(Link link) {
-        writer.writeStartElement("link");
+        writer.writeStartObject();
         writeCommon(link);
         writeTypeRef(link.getType());
-        writer.writeEndElement();
+        writer.writeEnd();
     }
 
     private void writeEnumType(EnumType type) {
-        writer.writeStartElement("enum");
+        writer.writeStartObject();
+        writer.write("kind", "enum");
         writeCommon(type);
+        writer.writeStartArray("values");
         type.values().forEach(this::writeEnumValue);
-        writer.writeEndElement();
+        writer.writeEnd();
+        writer.writeEnd();
     }
 
     private void writeEnumValue(EnumValue value) {
-        writer.writeStartElement("value");
+        writer.writeStartObject();
         writeCommon(value);
-        writer.writeEndElement();
+        writer.writeEnd();
     }
 
     private void writeService(Service service) {
-        writer.writeStartElement("service");
+        writer.writeStartObject();
         writeCommon(service);
+        writer.writeStartArray("methods");
         service.methods().forEach(this::writeServiceMethod);
+        writer.writeEnd();
+        writer.writeStartArray("locators");
         service.locators().forEach(this::writeServiceLocator);
-        writer.writeEndElement();
+        writer.writeEnd();
+        writer.writeEnd();
     }
 
     private void writeServiceMethod(Method method) {
-        writer.writeStartElement("method");
+        writer.writeStartObject();
         writeCommon(method);
+        writer.writeStartArray("parameters");
         method.parameters().forEach(this::writeParameter);
-        writer.writeEndElement();
+        writer.writeEnd();
+        writer.writeEnd();
     }
 
     private void writeServiceLocator(Locator locator) {
-        writer.writeStartElement("locator");
+        writer.writeStartObject();
         writeCommon(locator);
         writeServiceRef(locator.getService());
+        writer.writeStartArray("parameters");
         locator.parameters().forEach(this::writeParameter);
-        writer.writeEndElement();
+        writer.writeEnd();
+        writer.writeEnd();
     }
 
     private void writeParameter(Parameter parameter) {
-        writer.writeStartElement("parameter");
+        writer.writeStartObject();
         writeCommon(parameter);
-        writer.writeElement("in", Boolean.toString(parameter.isIn()));
-        writer.writeElement("out", Boolean.toString(parameter.isIn()));
+        writer.write("in", parameter.isIn());
+        writer.write("out", parameter.isOut());
         writeTypeRef(parameter.getType());
-        writer.writeEndElement();
+        writer.writeEnd();
     }
 
     private void writeDocument(Document document) {
-        writer.writeStartElement("document");
+        writer.writeStartObject();
         writeName(document);
         String source = document.getSource();
         if (source != null) {
-            writer.writeElement("source", source);
+            writer.write("source", source);
             String html = htmlGenerator.toHtml(source);
             if (html != null) {
-                writer.writeElement("html", html);
+                writer.write("html", html);
             }
         }
-        writer.writeEndElement();
+        writer.writeEnd();
     }
 
     private void writeCommon(Concept concept) {
@@ -180,17 +212,17 @@ public class XmlDescriptionGenerator {
     private void writeName(Named named) {
         Name name = named.getName();
         if (name != null) {
-            writer.writeElement("name", name.toString());
+            writer.write("name", name.toString());
         }
     }
 
     private void writeDoc(Concept concept) {
         String doc = concept.getDoc();
         if (doc != null) {
-            writer.writeElement("doc", doc);
+            writer.write("doc", doc);
             String html = htmlGenerator.toHtml(doc);
             if (html != null) {
-                writer.writeElement("html", html);
+                writer.write("html", html);
             }
         }
     }
@@ -198,38 +230,38 @@ public class XmlDescriptionGenerator {
     private void writeAnnotations(Concept concept) {
         List<Annotation> annotations = concept.getAnnotations();
         if (!annotations.isEmpty()) {
-            writer.writeStartElement("annotations");
+            writer.writeStartArray("annotations");
             annotations.forEach(this::writeAnnotation);
-            writer.writeEndElement();
+            writer.writeEnd();
         }
     }
 
     private void writeAnnotation(Annotation annotation) {
-        writer.writeStartElement("annotation");
+        writer.writeStartObject();
         writeName(annotation);
         List<AnnotationParameter> parameters = annotation.getParameters();
         if (!parameters.isEmpty()) {
-            writer.writeStartElement("parameters");
-            annotation.parameters().forEach(this::writeAnnotationParameter);
-            writer.writeEndElement();
+            writer.writeStartArray("parameters");
+            parameters.forEach(this::writeAnnotationParameter);
+            writer.writeEnd();
         }
-        writer.writeEndElement();
+        writer.writeEnd();
     }
 
     private void writeAnnotationParameter(AnnotationParameter parameter) {
-        writer.writeStartElement("parameter");
+        writer.writeStartObject();
         writeName(parameter);
         List<String> values = parameter.getValues();
         if (!values.isEmpty()) {
-            writer.writeStartElement("values");
-            values.forEach(x -> writer.writeElement("value", x));
-            writer.writeEndElement();
+            writer.writeStartArray("values");
+            values.forEach(writer::write);
+            writer.writeEnd();
         }
-        writer.writeEndElement();
+        writer.writeEnd();
     }
 
     private void writeTypeRef(Type type) {
-        writer.writeElement("type", getTypeRef(type));
+        writer.write("type", getTypeRef(type));
     }
 
     private String getTypeRef(Type type) {
@@ -245,7 +277,7 @@ public class XmlDescriptionGenerator {
     }
 
     private void writeServiceRef(Service service) {
-        writer.writeElement("service", getServiceRef(service));
+        writer.write("service", getServiceRef(service));
     }
 
     private String getServiceRef(Service service) {

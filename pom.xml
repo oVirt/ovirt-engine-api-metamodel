@@ -73,6 +73,7 @@
     <module>analyzer</module>
     <module>annotations</module>
     <module>concepts</module>
+    <module>doctool</module>
     <module>runtime</module>
     <module>server</module>
     <module>tests</module>

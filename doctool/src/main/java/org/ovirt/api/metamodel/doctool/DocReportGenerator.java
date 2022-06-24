@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.ovirt.api.metamodel.tool;
+package org.ovirt.api.metamodel.doctool;
 
 import static java.util.stream.Collectors.joining;
 
@@ -26,6 +26,7 @@ import org.ovirt.api.metamodel.concepts.Service;
 import org.ovirt.api.metamodel.concepts.StructMember;
 import org.ovirt.api.metamodel.concepts.StructType;
 import org.ovirt.api.metamodel.concepts.Type;
+import org.ovirt.api.metamodel.tool.BuiltinTypes;
 
 /**
  * This class takes a model and generates a report in CSV format of the status of the documentation.

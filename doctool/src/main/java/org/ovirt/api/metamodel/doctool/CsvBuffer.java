@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.ovirt.api.metamodel.tool;
+package org.ovirt.api.metamodel.doctool;
 
 import java.io.File;
 import java.io.FileOutputStream;
