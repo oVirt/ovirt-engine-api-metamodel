@@ -94,8 +94,9 @@ Requires:	mvn(org.slf4j:slf4j-api)
 # no need to package tests
 %mvn_package ":metamodel-tests" __noinstall
 
-# no need to package documentation generation
-%mvn_package ":metamodel-doctool" __noinstall
+# documentation generatio cannot be built withing RPM to remove dependency
+# on asciidoctorj
+%pom_disable_module doctool
 
 %if %{?skip_tests}
 # We need to skip test execution on COPR due to some weld classloading issues
