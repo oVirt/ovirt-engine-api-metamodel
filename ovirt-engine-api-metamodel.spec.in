@@ -37,6 +37,10 @@ BuildRequires:	mvn(org.jboss.weld.se:weld-se)
 BuildRequires:	mvn(org.ovirt.maven.plugins:ovirt-jboss-modules-maven-plugin)
 BuildRequires:	mvn(org.slf4j:slf4j-jdk14)
 
+# Required because of old xmvn package on COPR
+BuildRequires:	maven
+
+
 Requires:	ovirt-engine-api-metamodel-server
 Requires:	java-11-openjdk-headless >= 1:11.0.0
 Requires:	javapackages-filesystem
