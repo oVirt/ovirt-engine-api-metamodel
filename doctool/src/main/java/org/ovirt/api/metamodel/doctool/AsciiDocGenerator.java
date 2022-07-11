@@ -155,15 +155,15 @@ public class AsciiDocGenerator {
         Method method = point.getMethod();
         Service service = method.getDeclaringService();
         StringBuilder buffer = new StringBuilder();
-        buffer.append(String.format("* <<%s,%s>> ", getId(service, method), getHttpMethod(method)));
+        buffer.append(String.format("* xref:%s[%s] ", getId(service, method), getHttpMethod(method)));
         point.path().forEach(locator -> {
             buffer.append("/");
-            String link = String.format("<<%s,%s>>", getId(locator.getService()), getUrlSegment(locator));
+            String link = String.format("xref:%s[%s]", getId(locator.getService()), getUrlSegment(locator));
             buffer.append(link);
         });
         if (method.isAction()) {
             buffer.append("/");
-            String link = String.format("<<%s,%s>>", getId(service), getUrlSegment(method));
+            String link = String.format("xref:%s[%s]", getId(service), getUrlSegment(method));
             buffer.append(link);
         }
         docBuffer.addLine(buffer.toString());
