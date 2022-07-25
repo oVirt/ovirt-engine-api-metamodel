@@ -155,15 +155,20 @@ public class AsciiDocGenerator {
         Method method = point.getMethod();
         Service service = method.getDeclaringService();
         StringBuilder buffer = new StringBuilder();
-        buffer.append(String.format("* <<%s,%s>> ", getId(service, method), getHttpMethod(method)));
+        buffer.append(String.format("* xref:%s[%s] ", getId(service, method), getHttpMethod(method)));
         point.path().forEach(locator -> {
             buffer.append("/");
-            String link = String.format("<<%s,%s>>", getId(locator.getService()), getUrlSegment(locator));
+            String urlSegment = getUrlSegment(locator);
+            //image is a reserved word in asciidoc, so escaping special characters is needed
+            if (urlSegment.equals("{image:id}")) {
+                urlSegment = "\\{image\\:id}";
+            }
+            String link = String.format("xref:%s[%s]", getId(locator.getService()), urlSegment);
             buffer.append(link);
         });
         if (method.isAction()) {
             buffer.append("/");
-            String link = String.format("<<%s,%s>>", getId(service), getUrlSegment(method));
+            String link = String.format("xref:%s[%s]", getId(service), getUrlSegment(method));
             buffer.append(link);
         }
         docBuffer.addLine(buffer.toString());
@@ -459,13 +464,11 @@ public class AsciiDocGenerator {
             text = getName(elementType) + "[]";
         }
         StringBuilder buffer = new StringBuilder();
-        buffer.append("<<");
+        buffer.append("xref:");
         buffer.append(id);
         if (text != null) {
-            buffer.append(",");
-            buffer.append(text);
+            buffer.append("[").append(text).append("]");
         }
-        buffer.append(">>");
         return buffer.toString();
     }
 
