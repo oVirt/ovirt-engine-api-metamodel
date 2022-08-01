@@ -3,6 +3,41 @@
 This document describes the relevant changes between releases of the
 API metamodel.
 
+== 1.3.8 / Aug 1 2022
+
+* Change asciidoc link-generation (#28)
+
+* Add RPM packaging
+
+* Enable EL9 builds
+
+* introduce COPR build
+
+* Disable doctool in RPM build
+
+* Create DocTool to generate documentation
+
+* Switch back to weld 2.3
+
+* Use tests module name from pom.xml and not artifactdId
+
+* Require maven-local >= 4.0.0
+
+* Enable debug logging for xmvn_build
+
+* Bump: junit 4.13.1, ovirt-jboss-modules-maven-plugin 2.0.3, antlr 4.9.3, asciidoctor 1.6.2
+
+* Fix maven cache directory
+
+* Use oVirt buildcontainer
+
+* Switch from log4j backend to java.util.logging backend
+
+* Finish moving to github (#6)
+
+* Add build using github actions
+
+
 == 1.3.7 / Nov 16 2021
 
 Upgrades:
