@@ -126,6 +126,25 @@ export JAVA_HOME="/usr/lib/jvm/java-11-openjdk"
 
 
 %changelog
+* Tue Aug 2 2022 Ori Liel <oliel@redhat.com> 1.3.9-1
+- Change SCM connection details to github
+- Change asciidoc link-generation (#28)
+- Add RPM packaging
+- Enable EL9 builds
+- introduce COPR build
+- Disable doctool in RPM build
+- Create DocTool to generate documentation
+- Switch back to weld 2.3
+- Use tests module name from pom.xml and not artifactdId
+- Require maven-local >= 4.0.0
+- Enable debug logging for xmvn_build
+- Bump: junit 4.13.1, ovirt-jboss-modules-maven-plugin 2.0.3, antlr 4.9.3, asciidoctor 1.6.2
+- Fix maven cache directory
+- Use oVirt buildcontainer
+- Switch from log4j backend to java.util.logging backend
+- Finish moving to github (#6)
+- Add build using github actions
+
 * Mon Feb 14 2022 Martin Perina <mperina@redhat.com> 1.3.8-1
 - Initial RPM release
 
