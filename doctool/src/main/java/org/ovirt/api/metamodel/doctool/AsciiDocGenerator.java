@@ -107,7 +107,7 @@ public class AsciiDocGenerator {
 
         // Requests:
         docBuffer.addId("requests");
-        docBuffer.addLine("== Requests");
+        docBuffer.addLine("= Requests");
         docBuffer.addLine();
         docBuffer.addLine("This section enumerates all the requests that are available in the API.");
         docBuffer.addLine();
@@ -118,7 +118,7 @@ public class AsciiDocGenerator {
 
         // Services:
         docBuffer.addId("services");
-        docBuffer.addLine("== Services");
+        docBuffer.addLine("= Services");
         docBuffer.addLine();
         docBuffer.addLine("This section enumerates all the services that are available in the API.");
         docBuffer.addLine();
@@ -127,7 +127,7 @@ public class AsciiDocGenerator {
 
         // Types:
         docBuffer.addId("types");
-        docBuffer.addLine("== Types");
+        docBuffer.addLine("= Types");
         docBuffer.addLine();
         docBuffer.addLine("This section enumerates all the data types that are available in the API.");
         docBuffer.addLine();
@@ -177,7 +177,7 @@ public class AsciiDocGenerator {
     private void documentService(Service service) {
         // General description:
         docBuffer.addId(getId(service));
-        docBuffer.addLine("=== %s", getName(service));
+        docBuffer.addLine("== %s", getName(service));
         docBuffer.addLine();
         addDoc(service);
 
@@ -208,7 +208,7 @@ public class AsciiDocGenerator {
     private void documentMethod(Service service, Method method) {
         // General description:
         docBuffer.addId(getId(service, method));
-        docBuffer.addLine("==== %s [small]#%s#", getName(method), getHttpMethod(method));
+        docBuffer.addLine("=== %s [small]#%s#", getName(method), getHttpMethod(method));
         docBuffer.addLine();
         addDoc(method);
 
@@ -238,7 +238,7 @@ public class AsciiDocGenerator {
     private void documentParameter(Service service, Method method, Parameter parameter) {
         if (!onlyHasSummary(parameter)) {
             docBuffer.addId(getId(service, method, parameter));
-            docBuffer.addLine("===== %s", getName(parameter));
+            docBuffer.addLine("==== %s", getName(parameter));
             docBuffer.addLine();
             addDoc(parameter);
         }
@@ -256,7 +256,7 @@ public class AsciiDocGenerator {
     private void documentEnum(EnumType type) {
         // General description:
         docBuffer.addId(getId(type));
-        docBuffer.addLine("=== %s [small]#enum#", getName(type));
+        docBuffer.addLine("== %s [small]#enum#", getName(type));
         docBuffer.addLine();
         addDoc(type);
 
@@ -284,7 +284,7 @@ public class AsciiDocGenerator {
     private void documentValue(EnumType type, EnumValue value) {
         if (!onlyHasSummary(value)) {
             docBuffer.addId(getId(type, value));
-            docBuffer.addLine("==== %s", getName(value));
+            docBuffer.addLine("=== %s", getName(value));
             docBuffer.addLine();
             addDoc(value);
         }
@@ -293,7 +293,7 @@ public class AsciiDocGenerator {
     private void documentStruct(StructType type) {
         // General description:
         docBuffer.addId(getId(type));
-        docBuffer.addLine("=== %s [small]#struct#", getName(type));
+        docBuffer.addLine("== %s [small]#struct#", getName(type));
         docBuffer.addLine();
         addDoc(type);
 
@@ -344,7 +344,7 @@ public class AsciiDocGenerator {
     private void documentMember(StructType type, StructMember member) {
         if (!onlyHasSummary(member)) {
             docBuffer.addId(getId(type, member));
-            docBuffer.addLine("==== %s", getName(member));
+            docBuffer.addLine("=== %s", getName(member));
             docBuffer.addLine();
             addDoc(member);
         }
