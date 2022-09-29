@@ -126,6 +126,10 @@ export JAVA_HOME="/usr/lib/jvm/java-11-openjdk"
 
 
 %changelog
+
+* Thu Sep 29 2022 Ori Liel <oliel@redhat.com> 1.3.10-1
+- fix generated document hierarchy
+
 * Tue Aug 2 2022 Ori Liel <oliel@redhat.com> 1.3.9-1
 - Change SCM connection details to github
 - Change asciidoc link-generation (#28)
