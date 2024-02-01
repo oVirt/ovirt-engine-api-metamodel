@@ -1,5 +1,8 @@
 #!/bin/bash -xe
 
+# Mark current directory as safe for git to be able to parse git hash
+git config --global --add safe.directory $(pwd)
+
 # When building on GitHub we should use GITHUB_SHA environment variable, otherwise parse has from git
 if [ "${GITHUB_SHA}" == "" ]; then
   GIT_HASH=$(git rev-list HEAD | wc -l)
