@@ -27,10 +27,10 @@ jobs:
 
     steps:
     - name: Checkout sources
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Use cache for maven
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: /root/.m2/repository
         key: ${{ matrix.shortcut }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -42,6 +42,6 @@ jobs:
         .automation/build-rpm.sh $ARTIFACTS_DIR
 
     - name: Upload artifacts
-      uses: ovirt/upload-rpms-action@v2
+      uses: ovirt/upload-rpms-action@main
       with:
         directory: ${{ env.ARTIFACTS_DIR }}
