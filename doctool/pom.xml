@@ -82,7 +82,7 @@
     <!-- The tool runs in a CDI environment, implemented by Weld: -->
     <dependency>
       <groupId>org.jboss.weld.se</groupId>
-      <artifactId>weld-se-core</artifactId>
+      <artifactId>weld-se-shaded</artifactId>
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>

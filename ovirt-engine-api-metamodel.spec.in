@@ -33,7 +33,7 @@ BuildRequires:	mvn(org.codehaus.mojo:build-helper-maven-plugin)
 BuildRequires:	mvn(org.codehaus.mojo:exec-maven-plugin)
 BuildRequires:	mvn(org.glassfish:javax.json)
 BuildRequires:	mvn(org.jboss.resteasy:jaxrs-api)
-BuildRequires:	mvn(org.jboss.weld.se:weld-se)
+BuildRequires:	mvn(org.jboss.weld.se:weld-se-shaded)
 BuildRequires:	mvn(org.ovirt.maven.plugins:ovirt-jboss-modules-maven-plugin)
 BuildRequires:	mvn(org.slf4j:slf4j-jdk14)
 
