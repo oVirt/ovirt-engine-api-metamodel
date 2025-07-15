@@ -40,21 +40,6 @@
   </dependencies>
 
   <build>
-    <pluginManagement>
-      <plugins>
-
-        <!-- Make sure we use Java 11. -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.14</version>
-          <configuration>
-            <release>11</release>
-          </configuration>
-        </plugin>
-
-      </plugins>
-    </pluginManagement>
 
     <plugins>
 
