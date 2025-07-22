@@ -16,6 +16,9 @@ jobs:
           - name: centos-stream-9
             shortcut: cs9
             container-name: el9stream
+          - name: centos-stream-10
+            shortcut: cs10
+            container-name: el10stream
 
     name: ${{ matrix.name }}
 
@@ -27,7 +30,7 @@ jobs:
 
     steps:
     - name: Checkout sources
-      uses: actions/checkout@v4
+      uses: ovirt/checkout-action@main
 
     - name: Use cache for maven
       uses: actions/cache@v4

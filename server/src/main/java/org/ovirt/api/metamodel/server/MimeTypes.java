@@ -5,8 +5,8 @@
 
 package org.ovirt.api.metamodel.server;
 
-import javax.activation.MimeType;
-import javax.activation.MimeTypeParseException;
+import jakarta.activation.MimeType;
+import jakarta.activation.MimeTypeParseException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
