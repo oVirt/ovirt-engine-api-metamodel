@@ -12,3 +12,5 @@ repository/
 settings.xml
 target/
 **/methods.properties
+ovirt-engine-api-metamodel.spec
+rpmbuild/

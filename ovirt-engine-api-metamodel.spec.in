@@ -11,15 +11,10 @@ Source0:	%{name}-%{version}.tar.gz
 
 BuildArch:	noarch
 
-# We need to disable automatic generation of "Requires: java-headless >= 1:11"
-# by xmvn, becase JDK 11 doesn't provide java-headless artifact, but it
-# provides java-11-headless.
-AutoReq:	no
-
-BuildRequires:	java-11-openjdk-devel
-BuildRequires:	maven-local >= 4.0.0
+BuildRequires:	java-21-openjdk-devel
+BuildRequires:	maven-local-openjdk21
 BuildRequires:	mvn(commons-io:commons-io)
-BuildRequires:	mvn(jakarta.activation:jakarta.activation-api)
+BuildRequires:	mvn(jakarta.activation:jakarta.activation-api) >= 2.0.0
 BuildRequires:	mvn(javax.json:javax.json-api)
 BuildRequires:	mvn(javax.servlet:javax.servlet-api)
 BuildRequires:	mvn(javax.xml.bind:jaxb-api)
@@ -42,7 +37,7 @@ BuildRequires:	maven
 
 
 Requires:	ovirt-engine-api-metamodel-server
-Requires:	java-11-openjdk-headless >= 1:11.0.0
+Requires:	(java-11-openjdk-headless or java-21-openjdk-headless)
 Requires:	javapackages-filesystem
 Requires:	mvn(com.thoughtworks.qdox:qdox)
 Requires:	mvn(commons-cli:commons-cli)
@@ -52,7 +47,7 @@ Requires:	mvn(javax.xml.bind:jaxb-api)
 Requires:	mvn(org.antlr:antlr4-runtime)
 Requires:	mvn(org.glassfish:javax.json)
 Requires:	mvn(org.jboss.spec.javax.ws.rs:jboss-jaxrs-api_2.0_spec)
-Requires:	mvn(org.jboss.weld.se:weld-se)
+Requires:	mvn(org.jboss.weld.se:weld-se-shaded)
 Requires:	mvn(org.slf4j:slf4j-jdk14)
 
 
@@ -69,7 +64,7 @@ Group:		%{ovirt_product_group}
 # provides java-11-headless.
 AutoReq:	no
 
-Requires:	java-11-openjdk-headless >= 1:11.0.0
+Requires:	(java-11-openjdk-headless or java-21-openjdk-headless)
 Requires:	javapackages-filesystem
 Requires:	mvn(jakarta.activation:jakarta.activation-api)
 Requires:	mvn(javax.servlet:javax.servlet-api)
@@ -92,13 +87,16 @@ Requires:	mvn(org.slf4j:slf4j-api)
 # from pom.xml
 %pom_remove_plugin :maven-release-plugin pom.xml
 
+# No need for central-publishing-maven-plugin, this is only used for deployments.
+%pom_remove_plugin org.sonatype.central:central-publishing-maven-plugin pom.xml
+
 # server needs to be in a standalone package, as it needs to be distributed along with oVirt engine
 %mvn_package ":metamodel-server" ovirt-engine-api-metamodel-server
 
 # no need to package tests
 %mvn_package ":metamodel-tests" __noinstall
 
-# documentation generatio cannot be built withing RPM to remove dependency
+# documentation generation cannot be built withing RPM to remove dependency
 # on asciidoctorj
 %pom_disable_module doctool
 
@@ -108,8 +106,6 @@ Requires:	mvn(org.slf4j:slf4j-api)
 %endif
 
 %build
-# Necessary to override the default JVM for xmvn in COPR, which is JDK 8
-export JAVA_HOME="/usr/lib/jvm/java-11-openjdk"
 
 %mvn_build -j
 

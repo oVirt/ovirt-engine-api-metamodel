@@ -12,7 +12,7 @@
   </resources>
 
   <dependencies>
-    <module name="javax.activation.api"/>
+    <module name="jakarta.activation.api"/>
     <module name="javax.api"/>
     <module name="javax.servlet.api"/>
     <module name="org.slf4j"/>
