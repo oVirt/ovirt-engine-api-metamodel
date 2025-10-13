@@ -3,6 +3,13 @@
 This document describes the relevant changes between releases of the
 API metamodel.
 
+== 1.3.11 / Oct 13 2025
+
+* Drop EL8 support
+* Update to Weld 3
+* Add support for EL10 / CentOS Stream 10
+* Build on Java 21
+
 == 1.3.10 / Sep 29 2022
 
 * Fix generated document hierarchy
