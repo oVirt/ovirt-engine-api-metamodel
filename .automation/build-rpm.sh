@@ -7,8 +7,9 @@ dnf builddep -y rpmbuild/SRPMS/*src.rpm
 
 # Build binary package
 rpmbuild \
-    --define "_topmdir rpmbuild" \
-    --define "_rpmdir rpmbuild" \
+    --define "_topdir $(pwd)/rpmbuild" \
+    --define "_rpmdir $(pwd)/rpmbuild" \
+    --define "release_suffix ${RELEASE_SUFFIX:-}" \
     --rebuild rpmbuild/SRPMS/*src.rpm
 
 # Move RPMs to exported artifacts
